@@ -8,15 +8,13 @@
           id="fromValue"
           type="number" 
           [(ngModel)]="fromValue" 
-          (ngModelChange)="convert()"
-          placeholder="0.00"
-          (keyup.enter)="convert()" />
+          placeholder="0.00" />
       </div>
 
       <!-- Base Unit Selector -->
       <div class="field-group">
         <label for="fromUnit">Base Unit</label>
-        <select id="fromUnit" [(ngModel)]="fromUnit" (ngModelChange)="convert()">
+        <select id="fromUnit" [(ngModel)]="fromUnit">
           <option *ngFor="let u of currentUnits" [value]="u">
             {{ u | titlecase }}
           </option>
@@ -31,7 +29,7 @@
       <!-- Target Unit Selector -->
       <div class="field-group">
         <label for="toUnit">Target Unit</label>
-        <select id="toUnit" [(ngModel)]="toUnit" (ngModelChange)="convert()">
+        <select id="toUnit" [(ngModel)]="toUnit">
           <option *ngFor="let u of currentUnits" [value]="u">
             {{ u | titlecase }}
           </option>

@@ -234,4 +234,11 @@ export class QuantityMeasurementService {
       catchError((err) => this.handleApiError('getHistoryByType', err))
     );
   }
+
+  clearHistoryByType(type: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/history/type/${type}`).pipe(
+      tap(() => this.notifyHistoryChanged()),
+      catchError((err) => this.handleApiError('clearHistoryByType', err))
+    );
+  }
 }

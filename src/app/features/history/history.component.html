@@ -10,6 +10,10 @@
         <span class="count">{{ historyList.length }}</span>
         <span class="label">Total Records</span>
       </div>
+
+      <button class="btn-clear-history" (click)="clearHistory()" [disabled]="isClearing || isLoading">
+        {{ isClearing ? 'Clearing...' : 'Clear History' }}
+      </button>
     </div>
   </div>
 

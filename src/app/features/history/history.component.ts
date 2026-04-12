@@ -17,6 +17,7 @@ export class HistoryComponent implements OnChanges, OnInit, OnDestroy {
   
   historyList: QuantityMeasurementDTO[] = [];
   isLoading = false;
+  isClearing = false;
   error: string | null = null;
   private refreshSub?: Subscription;
   
@@ -74,6 +75,36 @@ export class HistoryComponent implements OnChanges, OnInit, OnDestroy {
         this.toastService.showError(errorMsg);
       }
     });
+  }
+
+  clearHistory() {
+    if (this.historyList.length === 0 || this.isClearing) {
+      return;
+    }
+
+    const shouldClear = window.confirm(`Clear all ${this.selectedType} history records?`);
+    if (!shouldClear) {
+      return;
+    }
+
+    this.isClearing = true;
+    this.error = null;
+    const typeParam = this.getMeasurementTypeParam();
+
+    this.svc.clearHistoryByType(typeParam)
+      .pipe(finalize(() => {
+        this.isClearing = false;
+      }))
+      .subscribe({
+        next: () => {
+          this.historyList = [];
+        },
+        error: (err) => {
+          const errorMsg = err?.userMessage || err?.error?.message || 'Failed to clear history';
+          this.error = errorMsg;
+          this.toastService.showError(errorMsg);
+        }
+      });
   }
 
   formatOperation(dto: QuantityMeasurementDTO): string {

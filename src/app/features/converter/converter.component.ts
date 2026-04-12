@@ -57,14 +57,6 @@ export class ConverterComponent implements OnChanges {
     }
   }
 
-  onValueChange() {
-    this.convert();
-  }
-
-  onUnitChange() {
-    this.convert();
-  }
-
   convert() {
     this.conversionError = null;
 
