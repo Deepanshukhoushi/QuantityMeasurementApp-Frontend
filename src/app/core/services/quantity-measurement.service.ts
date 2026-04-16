@@ -26,6 +26,7 @@ export interface QuantityMeasurementDTO {
   resultUnit: string;
   errorMessage: string;
   error: boolean;
+  measurementType?: string;
   timestamp?: string | Date;
 }
 
@@ -223,15 +224,22 @@ export class QuantityMeasurementService {
     );
   }
 
-  getOperationHistory(operation: string): Observable<QuantityMeasurementDTO[]> {
-    return this.http.get<QuantityMeasurementDTO[]>(`${this.apiUrl}/history/operation/${operation}`).pipe(
-      catchError((err) => this.handleApiError('getOperationHistory', err))
+  getHistory(): Observable<QuantityMeasurementDTO[]> {
+    return this.http.get<QuantityMeasurementDTO[]>(`${this.apiUrl}/history`).pipe(
+      catchError((err) => this.handleApiError('getHistory', err))
     );
   }
 
   getHistoryByType(type: string): Observable<QuantityMeasurementDTO[]> {
     return this.http.get<QuantityMeasurementDTO[]>(`${this.apiUrl}/history/type/${type}`).pipe(
       catchError((err) => this.handleApiError('getHistoryByType', err))
+    );
+  }
+
+  clearHistory(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/history`).pipe(
+      tap(() => this.notifyHistoryChanged()),
+      catchError((err) => this.handleApiError('clearHistory', err))
     );
   }
 

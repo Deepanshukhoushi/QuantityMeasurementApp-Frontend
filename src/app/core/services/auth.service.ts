@@ -195,10 +195,8 @@ export class AuthService {
     email: string;
     password: string;
     mobileNo: string;
-  }): Observable<string> {
-    return this.http.post(`${this.apiUrl}${environment.authEndpoints.register}`, data, {
-      responseType: 'text'
-    });
+  }): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}${environment.authEndpoints.register}`, data);
   }
 
   getGoogleAuthUrl(): string {

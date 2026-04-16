@@ -16,17 +16,17 @@ export class CalculatorComponent implements OnChanges {
   @Input() operation: 'compare' = 'compare';
 
   units: Record<string, string[]> = {
-    length: ['FEET', 'INCHES', 'YARDS', 'CENTIMETERS'],
+    length: ['FEET', 'INCH', 'YARD', 'CENTIMETER'],
     weight: ['MILLIGRAM', 'GRAM', 'KILOGRAM', 'POUND', 'TONNE'],
     temperature: ['CELSIUS', 'FAHRENHEIT', 'KELVIN'],
-    volume: ['LITER', 'MILLILITER', 'GALLON']
+    volume: ['LITRE', 'MILLILITRE', 'GALLON']
   };
 
   value1: number = 1;
   unit1: string = 'FEET';
 
   value2: number = 1;
-  unit2: string = 'INCHES';
+  unit2: string = 'INCH';
 
   compareResult: boolean | null = null;
   error: string | null = null;

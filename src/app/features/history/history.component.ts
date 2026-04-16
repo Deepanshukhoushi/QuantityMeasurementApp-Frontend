@@ -58,16 +58,19 @@ export class HistoryComponent implements OnChanges, OnInit, OnDestroy {
   loadHistory() {
     this.isLoading = true;
     this.error = null;
-    const typeParam = this.getMeasurementTypeParam();
     
-    this.svc.getHistoryByType(typeParam).pipe(
+    this.svc.getHistory().pipe(
       finalize(() => {
         setTimeout(() => this.isLoading = false, 200);
       })
     ).subscribe({
       next: (data) => {
-        this.historyList = (data || []).reverse();
-        // No success toast for routine history load - data is visible in UI
+        const typeParam = this.getMeasurementTypeParam();
+        // Filter history by current type if desired, or show all. 
+        // Given the request mentions general history, I'll filter by category for UI consistency.
+        this.historyList = (data || [])
+          .filter(item => item.measurementType === typeParam)
+          .reverse();
       },
       error: (err) => {
         const errorMsg = err?.userMessage || err?.error?.message || 'Failed to load history';
@@ -78,26 +81,27 @@ export class HistoryComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   clearHistory() {
-    if (this.historyList.length === 0 || this.isClearing) {
+    if (this.isClearing) {
       return;
     }
 
-    const shouldClear = window.confirm(`Clear all ${this.selectedType} history records?`);
+    const shouldClear = window.confirm(`Clear all history records? This cannot be undone.`);
     if (!shouldClear) {
       return;
     }
 
     this.isClearing = true;
     this.error = null;
-    const typeParam = this.getMeasurementTypeParam();
 
-    this.svc.clearHistoryByType(typeParam)
+    this.svc.clearHistory()
       .pipe(finalize(() => {
         this.isClearing = false;
       }))
       .subscribe({
         next: () => {
           this.historyList = [];
+          this.toastService.showSuccess('History cleared successfully');
+          this.svc.notifyHistoryChanged();
         },
         error: (err) => {
           const errorMsg = err?.userMessage || err?.error?.message || 'Failed to clear history';

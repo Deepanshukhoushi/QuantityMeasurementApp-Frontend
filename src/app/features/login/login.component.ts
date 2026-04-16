@@ -203,6 +203,15 @@ export class LoginComponent implements OnInit {
     
     this.authService.register(payload).subscribe({
       next: (res) => {
+        if (res?.accessToken) {
+          this.authService.loginFromResponse(res);
+          this.toastService.showSuccess('Registration successful!');
+          this.isLoading = false;
+          const redirectUrl = this.authService.getAndClearPostLoginRedirectUrl() ?? '/dashboard';
+          this.router.navigateByUrl(redirectUrl);
+          return;
+        }
+
         this.successMessage = 'Registration successful! You can now log in.';
         this.toastService.showSuccess('Account created successfully');
         this.isLoading = false;

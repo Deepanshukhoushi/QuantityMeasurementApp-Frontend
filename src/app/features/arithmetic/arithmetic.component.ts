@@ -24,10 +24,10 @@ export class ArithmeticComponent implements OnChanges {
   selectedOperation: string = 'add';
 
   units: Record<string, string[]> = {
-    length: ['FEET', 'INCHES', 'YARDS', 'CENTIMETERS'],
+    length: ['FEET', 'INCH', 'YARD', 'CENTIMETER'],
     weight: ['MILLIGRAM', 'GRAM', 'KILOGRAM', 'POUND', 'TONNE'],
     temperature: ['CELSIUS', 'FAHRENHEIT', 'KELVIN'],
-    volume: ['LITER', 'MILLILITER', 'GALLON']
+    volume: ['LITRE', 'MILLILITRE', 'GALLON']
   };
 
   value1: number = 1;

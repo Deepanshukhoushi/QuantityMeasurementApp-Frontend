@@ -16,16 +16,16 @@ export class ConverterComponent implements OnChanges {
   @Input() selectedType = 'length';
 
   units: Record<string, string[]> = {
-    length: ['FEET', 'INCHES', 'YARDS', 'CENTIMETERS'],
+    length: ['FEET', 'INCH', 'YARD', 'CENTIMETER'],
     weight: ['MILLIGRAM', 'GRAM', 'KILOGRAM', 'POUND', 'TONNE'],
     temperature: ['CELSIUS', 'FAHRENHEIT', 'KELVIN'],
-    volume: ['LITER', 'MILLILITER', 'GALLON']
+    volume: ['LITRE', 'MILLILITRE', 'GALLON']
   };
 
   fromValue: number = 1;
   fromUnit: string = 'FEET';
   toValue: number | null = null;
-  toUnit: string = 'INCHES';
+  toUnit: string = 'INCH';
   conversionError: string | null = null;
   isConverting = false;
 
