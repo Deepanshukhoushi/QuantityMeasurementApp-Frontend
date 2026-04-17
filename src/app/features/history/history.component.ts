@@ -58,19 +58,15 @@ export class HistoryComponent implements OnChanges, OnInit, OnDestroy {
   loadHistory() {
     this.isLoading = true;
     this.error = null;
+    const typeParam = this.getMeasurementTypeParam();
     
-    this.svc.getHistory().pipe(
+    this.svc.getHistoryByType(typeParam).pipe(
       finalize(() => {
         setTimeout(() => this.isLoading = false, 200);
       })
     ).subscribe({
       next: (data) => {
-        const typeParam = this.getMeasurementTypeParam();
-        // Filter history by current type if desired, or show all. 
-        // Given the request mentions general history, I'll filter by category for UI consistency.
-        this.historyList = (data || [])
-          .filter(item => item.measurementType === typeParam)
-          .reverse();
+        this.historyList = (data || []).reverse();
       },
       error: (err) => {
         const errorMsg = err?.userMessage || err?.error?.message || 'Failed to load history';
@@ -85,15 +81,16 @@ export class HistoryComponent implements OnChanges, OnInit, OnDestroy {
       return;
     }
 
-    const shouldClear = window.confirm(`Clear all history records? This cannot be undone.`);
+    const shouldClear = window.confirm(`Clear all ${this.selectedType} history records?`);
     if (!shouldClear) {
       return;
     }
 
     this.isClearing = true;
     this.error = null;
+    const typeParam = this.getMeasurementTypeParam();
 
-    this.svc.clearHistory()
+    this.svc.clearHistoryByType(typeParam)
       .pipe(finalize(() => {
         this.isClearing = false;
       }))
@@ -101,7 +98,6 @@ export class HistoryComponent implements OnChanges, OnInit, OnDestroy {
         next: () => {
           this.historyList = [];
           this.toastService.showSuccess('History cleared successfully');
-          this.svc.notifyHistoryChanged();
         },
         error: (err) => {
           const errorMsg = err?.userMessage || err?.error?.message || 'Failed to clear history';

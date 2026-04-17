@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  gatewayBaseUrl: 'http://56.228.52.104:8080',
-  apiUrl: 'http://56.228.52.104:8080/api',
+  gatewayBaseUrl: '/api',
+  apiUrl: '/api',
   authEndpoints: {
     login: '/auth/login',
     register: '/auth/register',
@@ -11,9 +11,10 @@ export const environment = {
     resetPassword: '/auth/reset-password'
   },
   oauth: {
-    googleAuthorizeUrl: 'http://56.228.52.104:8080/oauth2/authorize/google?redirect_uri=https://your-render-app.onrender.com/oauth2/redirect'
+    googleAuthorizeUrl: '/oauth2/authorize/google?redirect_uri=http://56.228.52.104/oauth2/redirect'
   },
   storage: {
     authSessionKey: 'qm_auth_session'
   }
 };
+
